@@ -4,9 +4,8 @@ var bodyparser = require('body-parser');
 var mongoose = require('mongoose');
 var port = process.env.PORT || 4000;
 var cliente_route = require('./routes/cliente');
-var URI = "mongodb://localhost/tienda";
 
-mongoose.connect(URI, {
+mongoose.connect("mongodb://localhost/tienda", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -14,6 +13,8 @@ mongoose.connect(URI, {
 mongoose.connection.on('connected', () => console.log('base de datos conectada'))
 mongoose.connection.on('error', () => console.log('error'))
 
+app.use(bodyparser.urlencoded({ extended: true }))
+app.use(bodyparser.json({ limit: "50mb", extended: true }))
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Credentials', true);
